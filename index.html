@@ -90,6 +90,7 @@
     .btn-container {
       position: relative;
       height: 120px;
+      margin-top: 10px;
     }
 
     .btn {
@@ -117,7 +118,7 @@
     #no {
       background: #6c757d;
       color: white;
-      right: 20%;
+      left: 60%;
       top: 20px;
     }
 
@@ -200,22 +201,28 @@ function sayYes() {
   });
 }
 
-/* No Button tricky but visible */
+/* No Button moves freely inside the button container */
 const noBtn = document.getElementById("no");
-const container = document.querySelector(".card"); // use card for bigger movement area
+const btnContainer = document.querySelector(".btn-container");
 
 function moveNo() {
-  const maxX = container.clientWidth - noBtn.clientWidth + 60; // allow 60px outside
-  const maxY = container.clientHeight - noBtn.clientHeight + 60;
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+  
+  // Keep button within the button container with some padding
+  const padding = 10;
+  const maxX = btnContainer.clientWidth - btnWidth - padding;
+  const maxY = btnContainer.clientHeight - btnHeight - padding;
 
-  const randomX = Math.random() * maxX - 30; // can go slightly negative
-  const randomY = Math.random() * maxY - 30;
+  const randomX = padding + Math.random() * (maxX - padding);
+  const randomY = padding + Math.random() * (maxY - padding);
 
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
 }
 
-/* Move No button when mouse hovers */
+
+/* Trigger move on hover */
 noBtn.addEventListener("mouseenter", moveNo);
 
 /* Floating hearts */
@@ -228,6 +235,7 @@ setInterval(() => {
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
 }, 400);
+
 </script>
 
 </body>
