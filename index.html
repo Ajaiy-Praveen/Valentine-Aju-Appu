@@ -80,6 +80,11 @@
       border-radius: 20px;
       margin: 20px 0;
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+    }
+
+    .photo:hover {
+      transform: scale(1.05);
     }
 
     .btn-container {
@@ -101,6 +106,11 @@
       background: #ff4d6d;
       color: white;
       left: 20%;
+    }
+
+    #yes:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
     }
 
     #no {
@@ -154,9 +164,9 @@
     <img src="us.jpeg" class="photo">
     <div class="btn-container">
       <button class="btn" id="yes" onclick="sayYes()">Yes 💘</button>
-      <button class="btn" id="no" onmouseover="moveNo()">No 😜</button>
+      <button class="btn" id="no">No 😜</button>
     </div>
-    <div id="popup">I LOVE YOU APPU 💕✨</div>
+    <div id="popup">I LOVE YOU 💕✨</div>
   </div>
 </div>
 
@@ -168,36 +178,17 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
+/* Tap Intro */
 function enterSite() {
   document.getElementById("intro").style.opacity = "0";
   setTimeout(() => {
     document.getElementById("intro").style.display = "none";
     document.getElementById("main").style.display = "flex";
   }, 1000);
-
   document.getElementById("bg-music").play();
 }
 
-function moveNo() {
-  const noBtn = document.getElementById("no");
-  const container = document.querySelector(".btn-container");
-  
-  // Use full screen width/height for more movement
-  const maxX = window.innerWidth - noBtn.clientWidth - 20;
-  const maxY = window.innerHeight - noBtn.clientHeight - 20;
-
-  // Random position, with more “jumpy” movement
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
-
-  // Optional: shake the button a little for extra difficulty
-  noBtn.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
-}
-
-
+/* Confetti on Yes */
 function sayYes() {
   document.getElementById("popup").style.display = "block";
   confetti({
@@ -207,17 +198,40 @@ function sayYes() {
   });
 }
 
-// Floating hearts
+/* Make No Button extremely tricky */
+const noBtn = document.getElementById("no");
+let attempts = 0;
+
+function moveNo() {
+  const maxX = window.innerWidth - noBtn.clientWidth - 20;
+  const maxY = window.innerHeight - noBtn.clientHeight - 20;
+
+  // Increase speed & randomness with attempts
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
+  noBtn.style.transform = `rotate(${Math.random() * 50 - 25}deg) scale(${0.8 + Math.random() * 0.5})`;
+
+  attempts++;
+}
+
+/* Move No button on hover */
+noBtn.addEventListener("mouseenter", moveNo);
+
+/* Floating hearts */
 setInterval(() => {
   const heart = document.createElement("div");
   heart.classList.add("heart");
   heart.innerHTML = "💖";
   heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 20) + "px";
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
 }, 400);
+
 </script>
 
 </body>
 </html>
-
