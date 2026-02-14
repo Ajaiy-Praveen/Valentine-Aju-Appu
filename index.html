@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow: hidden;
       background: black;
     }
@@ -31,13 +35,25 @@
     }
 
     #intro h1 {
-      font-size: 36px;
+      font-size: 48px;
       margin-bottom: 20px;
+      animation: pulse 2s ease infinite;
     }
 
     #intro p {
-      font-size: 20px;
+      font-size: 24px;
       opacity: 0.9;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     /* Main Content */
@@ -49,7 +65,7 @@
       align-items: center;
       background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1, #fccb90);
       background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
+      animation: gradientBG 15s ease infinite;
     }
 
     @keyframes gradientBG {
@@ -59,80 +75,118 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(15px);
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(20px);
       padding: 40px;
-      border-radius: 25px;
+      border-radius: 30px;
       text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       width: 90%;
-      max-width: 400px;
+      max-width: 450px;
       position: relative;
       z-index: 10;
+      border: 2px solid rgba(255,255,255,0.4);
     }
 
     h2 {
       color: #ff2e63;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
 
     .photo {
-      width: 220px;
-      border-radius: 20px;
+      width: 240px;
+      max-width: 90%;
+      border-radius: 25px;
       margin: 20px 0;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
       transition: transform 0.4s ease;
+      border: 4px solid rgba(255,255,255,0.6);
     }
 
     .photo:hover {
-      transform: scale(1.05);
+      transform: scale(1.08) rotate(2deg);
+    }
+
+    #tease-message {
+      min-height: 30px;
+      color: #ff4d6d;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 15px 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #tease-message.show {
+      opacity: 1;
     }
 
     .btn-container {
       position: relative;
-      height: 120px;
-      margin-top: 10px;
+      height: 140px;
+      margin-top: 20px;
     }
 
     .btn {
-      padding: 12px 25px;
-      font-size: 18px;
+      padding: 14px 30px;
+      font-size: 20px;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
       position: absolute;
-      transition: 0.2s ease;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
     #yes {
-      background: #ff4d6d;
+      background: linear-gradient(135deg, #ff4d6d, #ff758c);
       color: white;
-      left: 20%;
-      top: 20px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      z-index: 5;
     }
 
     #yes:hover {
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 10px 30px rgba(255, 77, 109, 0.5);
     }
 
     #no {
-      background: #6c757d;
+      background: linear-gradient(135deg, #6c757d, #8d959d);
       color: white;
-      left: 60%;
-      top: 20px;
+      left: 50%;
+      top: 80%;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s ease;
+    }
+
+    #no:hover {
+      background: linear-gradient(135deg, #5a6268, #7a8288);
     }
 
     #popup {
       display: none;
-      font-size: 22px;
+      font-size: 26px;
       color: #d6336c;
-      margin-top: 20px;
-      animation: fadeIn 1s ease forwards;
+      margin-top: 25px;
+      font-weight: 700;
+      animation: fadeInScale 0.8s ease forwards;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fadeInScale {
+      from { 
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to { 
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* Floating Hearts */
@@ -142,11 +196,43 @@
       font-size: 20px;
       animation: float 6s linear infinite;
       opacity: 0.7;
+      pointer-events: none;
     }
 
     @keyframes float {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-100vh); }
+      0% { 
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes sparkleFloat {
+      0%, 100% { 
+        opacity: 0;
+        transform: translateY(0) scale(0);
+      }
+      50% { 
+        opacity: 1;
+        transform: translateY(-30px) scale(1);
+      }
     }
 
   </style>
@@ -156,7 +242,7 @@
 
 <!-- Intro Screen -->
 <div id="intro" onclick="enterSite()">
-  <h1>For Appuuu 💕</h1>
+  <h1>For Appu 💕</h1>
   <p>Tap to Enter 💌</p>
 </div>
 
@@ -164,7 +250,8 @@
 <div id="main">
   <div class="card">
     <h2>Kuttaaa 💖<br>Will You Be My Valentine?</h2>
-    <img src="us.jpeg" class="photo">
+    <img src="us.jpeg" class="photo" alt="Us">
+    <div id="tease-message"></div>
     <div class="btn-container">
       <button class="btn" id="yes" onclick="sayYes()">Yes 💘</button>
       <button class="btn" id="no">No 😜</button>
@@ -181,36 +268,95 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
+/* Variables */
+let noClickCount = 0;
+const teaseMessages = [
+  "Come on, you know you want to! 😊",
+  "Really? Think again! 💭",
+  "The Yes button is getting bigger... 👀",
+  "You're making this too easy! 😄",
+  "Just click Yes already! 💕",
+  "I know your answer... 😏",
+  "The Yes button is calling you! 📢",
+  "Stop playing hard to get! 😘",
+  "You can't resist forever! ✨",
+  "Kuttaa please... 🥺💖"
+];
+
 /* Tap Intro */
 function enterSite() {
   document.getElementById("intro").style.opacity = "0";
   setTimeout(() => {
     document.getElementById("intro").style.display = "none";
     document.getElementById("main").style.display = "flex";
+    createSparkles();
   }, 1000);
-  document.getElementById("bg-music").play();
+  
+  // Try to play music (may require user interaction on some browsers)
+  const music = document.getElementById("bg-music");
+  music.play().catch(e => console.log("Music autoplay prevented"));
 }
 
 /* Confetti on Yes */
 function sayYes() {
-  document.getElementById("popup").style.display = "block";
-  confetti({
-    particleCount: 300,
-    spread: 140,
-    origin: { y: 0.6 }
-  });
+  const popup = document.getElementById("popup");
+  popup.style.display = "block";
+  
+  // Multiple confetti bursts
+  const duration = 3000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 7,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ['#ff4d6d', '#ff758c', '#ffd6e0']
+    });
+    confetti({
+      particleCount: 7,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ['#ff4d6d', '#ff758c', '#ffd6e0']
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  }());
+
+  // Hide buttons
+  document.getElementById("yes").style.display = "none";
+  document.getElementById("no").style.display = "none";
+  document.getElementById("tease-message").style.display = "none";
 }
 
-/* No Button moves freely inside the button container */
+/* No Button moves and Yes button grows */
 const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
 const btnContainer = document.querySelector(".btn-container");
+const teaseMsg = document.getElementById("tease-message");
 
 function moveNo() {
+  // Increment count
+  noClickCount++;
+  
+  // Show tease message
+  const messageIndex = Math.min(noClickCount - 1, teaseMessages.length - 1);
+  teaseMsg.textContent = teaseMessages[messageIndex];
+  teaseMsg.classList.add("show");
+  
+  // Grow Yes button
+  const newScale = 1 + (noClickCount * 0.15);
+  yesBtn.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+  
+  // Move No button
   const btnWidth = noBtn.offsetWidth;
   const btnHeight = noBtn.offsetHeight;
   
-  // Keep button within the button container with some padding
-  const padding = 10;
+  const padding = 15;
   const maxX = btnContainer.clientWidth - btnWidth - padding;
   const maxY = btnContainer.clientHeight - btnHeight - padding;
 
@@ -219,25 +365,52 @@ function moveNo() {
 
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
+  
+  // Shrink No button slightly
+  if (noClickCount > 3) {
+    const shrink = Math.max(0.7, 1 - (noClickCount * 0.05));
+    noBtn.style.transform = `translate(-50%, -50%) scale(${shrink})`;
+  }
 }
 
-
-/* Trigger move on hover */
+/* Trigger move on hover and touch */
 noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  moveNo();
+});
 
 /* Floating hearts */
 setInterval(() => {
   const heart = document.createElement("div");
   heart.classList.add("heart");
-  heart.innerHTML = "💖";
+  const hearts = ["💖", "💕", "💗", "💓", "💝"];
+  heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
   heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (15 + Math.random() * 20) + "px";
+  heart.style.fontSize = (15 + Math.random() * 25) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 3) + "s";
   document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 400);
+  setTimeout(() => heart.remove(), 7000);
+}, 300);
+
+/* Sparkles around card */
+function createSparkles() {
+  setInterval(() => {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("sparkle");
+    const card = document.querySelector(".card");
+    const rect = card.getBoundingClientRect();
+    
+    sparkle.style.left = (rect.left + Math.random() * rect.width) + "px";
+    sparkle.style.top = (rect.top + Math.random() * rect.height) + "px";
+    sparkle.style.animationDelay = Math.random() + "s";
+    
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 3000);
+  }, 200);
+}
 
 </script>
 
 </body>
 </html>
-
