@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Appuu 💕</title>
+  <title>Appu 💕</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -89,7 +89,7 @@
 
     .btn-container {
       position: relative;
-      height: 100px;
+      height: 120px;
     }
 
     .btn {
@@ -99,13 +99,14 @@
       border-radius: 30px;
       cursor: pointer;
       position: absolute;
-      transition: 0.3s ease;
+      transition: 0.2s ease;
     }
 
     #yes {
       background: #ff4d6d;
       color: white;
       left: 20%;
+      top: 20px;
     }
 
     #yes:hover {
@@ -117,6 +118,7 @@
       background: #6c757d;
       color: white;
       right: 20%;
+      top: 20px;
     }
 
     #popup {
@@ -153,20 +155,20 @@
 
 <!-- Intro Screen -->
 <div id="intro" onclick="enterSite()">
-  <h1>For Appuuu 💕</h1>
+  <h1>For Appu 💕</h1>
   <p>Tap to Enter 💌</p>
 </div>
 
 <!-- Main Content -->
 <div id="main">
   <div class="card">
-    <h2>Kutta 💖<br>Will You Be My Valentine?</h2>
+    <h2>Appu 💖<br>Will You Be My Valentine?</h2>
     <img src="us.jpeg" class="photo">
     <div class="btn-container">
       <button class="btn" id="yes" onclick="sayYes()">Yes 💘</button>
       <button class="btn" id="no">No 😜</button>
     </div>
-    <div id="popup">I LOVE YOU !!! 💕✨</div>
+    <div id="popup">I LOVE YOU APPU !!! 💕✨</div>
   </div>
 </div>
 
@@ -198,30 +200,22 @@ function sayYes() {
   });
 }
 
-/* Make No Button extremely tricky */
+/* No Button tricky but visible */
 const noBtn = document.getElementById("no");
-let attempts = 0;
+const container = document.querySelector(".card"); // use card for bigger movement area
 
 function moveNo() {
-  const noBtn = document.getElementById("no");
-  const container = document.querySelector(".btn-container");
+  const maxX = container.clientWidth - noBtn.clientWidth + 60; // allow 60px outside
+  const maxY = container.clientHeight - noBtn.clientHeight + 60;
 
-  const maxX = container.clientWidth - noBtn.clientWidth;
-  const maxY = container.clientHeight - noBtn.clientHeight;
-
-  // Random position inside the container
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
+  const randomX = Math.random() * maxX - 30; // can go slightly negative
+  const randomY = Math.random() * maxY - 30;
 
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
-
-  // Random rotation & slight scaling
-  noBtn.style.transform = `rotate(${Math.random() * 50 - 25}deg) scale(${0.8 + Math.random() * 0.4})`;
 }
 
-
-/* Move No button on hover */
+/* Move No button when mouse hovers */
 noBtn.addEventListener("mouseenter", moveNo);
 
 /* Floating hearts */
@@ -234,12 +228,7 @@ setInterval(() => {
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
 }, 400);
-
 </script>
 
 </body>
 </html>
-
-
-
-
