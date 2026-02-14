@@ -203,19 +203,23 @@ const noBtn = document.getElementById("no");
 let attempts = 0;
 
 function moveNo() {
-  const maxX = window.innerWidth - noBtn.clientWidth - 20;
-  const maxY = window.innerHeight - noBtn.clientHeight - 20;
+  const noBtn = document.getElementById("no");
+  const container = document.querySelector(".btn-container");
 
-  // Increase speed & randomness with attempts
+  const maxX = container.clientWidth - noBtn.clientWidth;
+  const maxY = container.clientHeight - noBtn.clientHeight;
+
+  // Random position inside the container
   const randomX = Math.random() * maxX;
   const randomY = Math.random() * maxY;
 
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
-  noBtn.style.transform = `rotate(${Math.random() * 50 - 25}deg) scale(${0.8 + Math.random() * 0.5})`;
 
-  attempts++;
+  // Random rotation & slight scaling
+  noBtn.style.transform = `rotate(${Math.random() * 50 - 25}deg) scale(${0.8 + Math.random() * 0.4})`;
 }
+
 
 /* Move No button on hover */
 noBtn.addEventListener("mouseenter", moveNo);
@@ -235,5 +239,6 @@ setInterval(() => {
 
 </body>
 </html>
+
 
 
