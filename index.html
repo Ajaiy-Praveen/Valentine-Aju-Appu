@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Appu 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      background: black;
+    }
+
+    /* Intro Screen */
+    #intro {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      transition: opacity 1s ease;
+      z-index: 100;
+    }
+
+    #intro h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    #intro p {
+      font-size: 20px;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    #main {
+      display: none;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1, #fccb90);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h2 {
+      color: #ff2e63;
+    }
+
+    .photo {
+      width: 220px;
+      border-radius: 20px;
+      margin: 20px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-container {
+      position: relative;
+      height: 100px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+      transition: 0.3s ease;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+      left: 20%;
+    }
+
+    #no {
+      background: #6c757d;
+      color: white;
+      right: 20%;
+    }
+
+    #popup {
+      display: none;
+      font-size: 22px;
+      color: #d6336c;
+      margin-top: 20px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-100vh); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- Intro Screen -->
+<div id="intro" onclick="enterSite()">
+  <h1>For Appu 💕</h1>
+  <p>Tap to Enter 💌</p>
+</div>
+
+<!-- Main Content -->
+<div id="main">
+  <div class="card">
+    <h2>Kutta 💖<br>Will You Be My Valentine?</h2>
+    <img src="us.jpeg" class="photo">
+    <div class="btn-container">
+      <button class="btn" id="yes" onclick="sayYes()">Yes 💘</button>
+      <button class="btn" id="no" onmouseover="moveNo()">No 😜</button>
+    </div>
+    <div id="popup">I LOVE YOU APPU 💕✨</div>
+  </div>
+</div>
+
+<!-- Music -->
+<audio id="bg-music" loop>
+  <source src="apna-bana-le.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+function enterSite() {
+  document.getElementById("intro").style.opacity = "0";
+  setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("main").style.display = "flex";
+  }, 1000);
+
+  document.getElementById("bg-music").play();
+}
+
+function moveNo() {
+  const noBtn = document.getElementById("no");
+  const container = document.querySelector(".btn-container");
+  const maxX = container.clientWidth - noBtn.clientWidth;
+  const maxY = container.clientHeight - noBtn.clientHeight;
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+}
+
+function sayYes() {
+  document.getElementById("popup").style.display = "block";
+  confetti({
+    particleCount: 300,
+    spread: 140,
+    origin: { y: 0.6 }
+  });
+}
+
+// Floating hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+</script>
+
+</body>
+</html>
