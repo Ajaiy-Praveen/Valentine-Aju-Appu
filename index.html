@@ -181,11 +181,22 @@ function enterSite() {
 function moveNo() {
   const noBtn = document.getElementById("no");
   const container = document.querySelector(".btn-container");
-  const maxX = container.clientWidth - noBtn.clientWidth;
-  const maxY = container.clientHeight - noBtn.clientHeight;
-  noBtn.style.left = Math.random() * maxX + "px";
-  noBtn.style.top = Math.random() * maxY + "px";
+  
+  // Use full screen width/height for more movement
+  const maxX = window.innerWidth - noBtn.clientWidth - 20;
+  const maxY = window.innerHeight - noBtn.clientHeight - 20;
+
+  // Random position, with more “jumpy” movement
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
+
+  // Optional: shake the button a little for extra difficulty
+  noBtn.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
 }
+
 
 function sayYes() {
   document.getElementById("popup").style.display = "block";
@@ -209,3 +220,4 @@ setInterval(() => {
 
 </body>
 </html>
+
